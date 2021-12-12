@@ -1,0 +1,3 @@
+#! /bin/sh
+dart bin/main.dart
+#dart /var/www/blitz/PortScanLog/PortScanLogREST/bin/main.dart
