@@ -4,7 +4,11 @@ body {
   font-family: tahoma;
   color: #282828;
 }
-
+#app {
+  max-width: 960px;
+  margin: auto; 
+  background-color: #fafafa;
+}
 .button {
   margin-left: 10px;
   background-color: #2279e4;
@@ -39,7 +43,7 @@ body {
 }
 
 h1 {
-  font-size: 50px;
+  font-size: 200%;
 }
 
 .nav-bar {
