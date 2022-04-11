@@ -10,8 +10,7 @@ app.component('log-display', {
                <div v-else> - </div>
                &nbsp;{{ group }}</div><div>{{ groups[group].length }} connections</div>
              </div>
-             <div v-if="showGroup[group]" class="group-detail">
-               <hr>
+             <div v-if="showGroup[group]" class="group-detail">              
                <div v-for="log in groups[group]">
                  <div class="log-line space-between">
                    <div v-bind:class="{ selected: current===log['id'] }" v-on:click="getDetail(log['id'])">{{ formatLog(log) }}</div>
@@ -22,11 +21,12 @@ app.component('log-display', {
          </div>
        </div>
        <div class="details">
-         <div>
-          Duration: <input v-model.number="month" type="number" class="month" /> months
-          <div class="count">Number of records: {{ count }}</div>
-          <hr>
-         </div>         
+         <div class="detailHeader">
+          Duration: <input v-model.number="month" type="number" class="month" /> months &nbsp; &nbsp;
+          {{ count }} records &nbsp; &nbsp;
+          <button @click="getLogRecords()">Update</button>         
+         </div>
+         <hr>         
          <div v-if="detail!=null">
            <h3>{{ detail.group }}</h3>
            <div class="detail">
@@ -47,8 +47,9 @@ app.component('log-display', {
     }
   },
   methods: {
-    async getLogRecords(month) {
-      var resp = await axios.get('http://blitz.cs.niu.edu/logrecords/records?month=' + month)
+    async getLogRecords() {
+      NProgress.start()
+      var resp = await axios.get('http://blitz.cs.niu.edu/logrecords/records?month=' + this.month)
       // console.log(resp.data);
       this.data = resp.data;
       this.groups = [];
@@ -61,6 +62,7 @@ app.component('log-display', {
         }
         this.showGroup[log.group] = false
       }
+      NProgress.done()
       // console.log(Object.keys(this.groups).length + " number of groups")
     },
     toggleGroup(group) {
@@ -93,7 +95,7 @@ app.component('log-display', {
     count() {
       if (this.data == null || this.month != this.oldMonth) {
         this.oldMonth = this.month;
-        this.getLogRecords(this.month)
+        this.getLogRecords()
       } else {
         return this.data.length
       }

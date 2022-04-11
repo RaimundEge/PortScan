@@ -9,50 +9,21 @@ body {
   margin: auto; 
   background-color: #fafafa;
 }
-.button {
-  margin-left: 10px;
-  background-color: #2279e4;
-  border-radius: 5px;
-  font-size: 16px;
-  width: 60px;
-  height: 22px;
-  color: white;
-  padding-left: 2px;
-  box-shadow: inset 0 -0.6em 1em -0.35em rgba(0, 0, 0, 0.17),
-    inset 0 0.6em 2em -0.3em rgba(255, 255, 255, 0.15),
-    inset 0 0 0em 0.05em rgba(255, 255, 255, 0.12);
-  text-align: center;
-  cursor: pointer;
-}
-
-.count {
-  margin-top: 0px;
-  margin-left: 25px;
-  float: right;
-  border: 1px solid #d8d8d8;
-  padding: 5px;
-  background-color: white;
-  -webkit-box-shadow: 0px 2px 15px -12px rgba(0, 0, 0, 0.57);
-  -moz-box-shadow: 0px 2px 15px -12px rgba(0, 0, 0, 0.57);
-  box-shadow: 2px 15px -12px rgba(0, 0, 0, 0.57);
-  height: 22px;
-  width: 175px;
+.detailHeader {
+  text-align: end;
 }
 .selected {
   background-color: rgb(196, 236, 13);
 }
 
-h1 {
-  font-size: 200%;
-}
-
 .nav-bar {
+  font-size: 200%;
   background: linear-gradient(-90deg, #84cf6a, #16c0b0);
   margin: 0px;
   -webkit-box-shadow: 0px 2px 15px -12px rgba(0, 0, 0, 0.57);
   -moz-box-shadow: 0px 2px 15px -12px rgba(0, 0, 0, 0.57);
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.57);
-  padding-left: 5px;
+  padding-left: 10px;
 }
 
 p {
@@ -70,6 +41,7 @@ p {
   padding: 0px 5px;
   margin: 1px;
   justify-content: space-between;
+  border: 1px solid #16c0b0;
 }
 .space-between{
   justify-content: space-between;
@@ -78,12 +50,14 @@ p {
   background-color: #43e7d7;
 }
 .group-detail {
-  margin-bottom: 10px;
+  max-height: 400px;
+  overflow: auto;
+  overflow-x: hidden;
 }
 .group-line {
   display: flex;
   padding: 0px 5px;
-  margin: 1px;
+  margin: 1px; 
 }
 .log-line {
   display: flex;
