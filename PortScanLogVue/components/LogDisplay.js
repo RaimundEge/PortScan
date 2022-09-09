@@ -49,7 +49,7 @@ app.component('log-display', {
   methods: {
     async getLogRecords() {
       NProgress.start()
-      var resp = await axios.get('https://blitz.cs.niu.edu/logrecords/records?month=' + this.month)
+      var resp = await axios.get('../logrecords/records?month=' + this.month)
       // console.log(resp.data);
       this.data = resp.data;
       this.groups = [];
@@ -85,7 +85,7 @@ app.component('log-display', {
       return result
     },
     async getDetail(id) {
-      var response = await axios.get('https://blitz.cs.niu.edu/logrecords/record?id=' + id)
+      var response = await axios.get('../logrecords/record?id=' + id)
       this.detail = response.data
       this.current = id
       // console.log(id + ':' + this.detail)
