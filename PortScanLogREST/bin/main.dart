@@ -1,4 +1,4 @@
-import 'package:port_scan_log/db.dart';
+import '../lib/db.dart';
 import 'dart:convert';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
@@ -24,9 +24,13 @@ Future<Response> dbRequest(Request request) async {
         case 'records':
           var count = 12;
           if (request.url.hasQuery) {
-            var m = int.tryParse(request.url.queryParameters['month']);
+            // var m = int.tryParse(request.url.queryParameters['month']);
+            var m = request.url.queryParameters['month'];
             if (m != null) {
-              count = m;
+              var mi = int.tryParse(m);
+              if (mi != null) {
+                count = mi;
+              }
             }
           }
           var list = await db.getLogs(count);
@@ -34,7 +38,7 @@ Future<Response> dbRequest(Request request) async {
           break;
         case 'record':
           if (request.url.hasQuery) {
-            var id = int.tryParse(request.url.queryParameters['id']);
+            var id = request.url.queryParameters['id'];
             if (id != null) {
               var record = await db.getLog(id);
               if (record != null) {

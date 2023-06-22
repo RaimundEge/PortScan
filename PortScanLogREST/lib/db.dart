@@ -15,7 +15,7 @@ class DB {
   Future<List<dynamic>> getLogs(int recent) async {
     var conn = await initConn();
     var list = [];
-    var where = 'where timestamp > now() - INTERVAL ${recent} MONTH ';
+    var where = 'where timestamp > now() - INTERVAL $recent MONTH ';
     var results = await conn.query(
         'select id, timestamp, groupName, type, IP, port from logrecords ' + where + 'ORDER BY id DESC');
     for (var row in results) {
@@ -34,7 +34,7 @@ class DB {
     return list;
   }
 
-  Future<dynamic> getLog(int id) async {
+  Future<dynamic> getLog(String id) async {
     var conn = await initConn();
     var record;
     // Query the database using a parameterized query

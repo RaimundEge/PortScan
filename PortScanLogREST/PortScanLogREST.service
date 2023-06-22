@@ -2,7 +2,7 @@
 Description=Node.js Dart server for port scan logs
 
 [Service]
-ExecStart="/var/www/blitz/PortScanLog/PortScanLogREST/run"
+ExecStart="/var/www/blitz/PortScanLog/PortScanLogREST/bin/main.exe"
 # Required on some systems
 WorkingDirectory=/var/www/blitz/PortScanLog/PortScanLogREST/
 Restart=always
