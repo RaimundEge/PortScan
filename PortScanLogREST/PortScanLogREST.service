@@ -2,16 +2,10 @@
 Description=Node.js Dart server for port scan logs
 
 [Service]
-ExecStart="/var/www/blitz/PortScanLog/PortScanLogREST/bin/main.exe"
-# Required on some systems
+Type=simple
 WorkingDirectory=/var/www/blitz/PortScanLog/PortScanLogREST/
+ExecStart="/var/www/blitz/PortScanLog/PortScanLogREST/bin/main.exe"
+ 
 Restart=always
-# Restart service after 10 seconds if node service crashes
-RestartSec=10
-# Output to syslog
-StandardOutput=syslog
-StandardError=syslog
-SyslogIdentifier=PortScanLogREST
-
 [Install]
-WantedBy=multi-user.target
+WantedBy=network-online.target
