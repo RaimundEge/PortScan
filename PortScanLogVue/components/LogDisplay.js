@@ -3,15 +3,15 @@ app.component('log-display', {
     /*html*/
     `<div class="log-display">        
        <div class="log-records">
-         <div v-for="group in Object.keys(groups)">
+         <div v-for="groupName in Object.keys(groups)">
            <div class="log-group">           
-             <div v-on:click="toggleGroup(group)" class="log-header">
-               <div class="group-line"><div v-if="!showGroup[group]"> + </div>
+             <div v-on:click="toggleGroup(groupName)" class="log-header">
+               <div class="group-line"><div v-if="!showGroup[groupName]"> + </div>
                <div v-else> - </div>
-               &nbsp;{{ group }}</div><div>{{ groups[group].length }} connections</div>
+               &nbsp;{{ groupName}}</div><div>{{ groups[groupName].length }} connections</div>
              </div>
-             <div v-if="showGroup[group]" class="group-detail">              
-               <div v-for="log in groups[group]">
+             <div v-if="showGroup[groupName]" class="group-detail">              
+               <div v-for="log in groups[groupName]">
                  <div class="log-line space-between">
                    <div v-bind:class="{ selected: current===log['id'] }" v-on:click="getDetail(log['id'])">{{ formatLog(log) }}</div>
                  </div>
@@ -28,7 +28,7 @@ app.component('log-display', {
          </div>
          <hr>         
          <div v-if="detail!=null">
-           <h3>{{ detail.group }}</h3>
+           <h3>{{ detail.groupName }}</h3>
            <div class="detail">
              {{ detail.record }}
            </div>
@@ -49,25 +49,25 @@ app.component('log-display', {
   methods: {
     async getLogRecords() {
       NProgress.start()
-      var resp = await axios.get('../logrecords/records?month=' + this.month)
+      var resp = await axios.get('../logrecords?month=' + this.month)
       // console.log(resp.data);
       this.data = resp.data;
       this.groups = [];
       // process groups
       for (var log of this.data) {
-        if (this.groups[log.group] == null) {
-          this.groups[log.group] = [log]
+        if (this.groups[log.groupName] == null) {
+          this.groups[log.groupName] = [log]
         } else {
-          this.groups[log.group].push(log)
+          this.groups[log.groupName].push(log)
         }
-        this.showGroup[log.group] = false
+        this.showGroup[log.groupName] = false
       }
       NProgress.done()
       // console.log(Object.keys(this.groups).length + " number of groups")
     },
-    toggleGroup(group) {
+    toggleGroup(groupName) {
       for (var sg in this.showGroup) {
-        if (sg == group) {
+        if (sg == groupName) {
           this.showGroup[sg] = !this.showGroup[sg]
         } else {
           this.showGroup[sg] = false
@@ -79,13 +79,13 @@ app.component('log-display', {
     formatLog(log) {
       var result = log['id'] + ': '
       result += log['timestamp'] + ', '
-      result += log['group'] + ' >'
+      result += log['groupName'] + ' >'
       result += log['IP'] + ':' + log['port'] + '<, '
       result += log['type']
       return result
     },
     async getDetail(id) {
-      var response = await axios.get('../logrecords/record?id=' + id)
+      var response = await axios.get('../logrecord?id=' + id)
       this.detail = response.data
       this.current = id
       // console.log(id + ':' + this.detail)

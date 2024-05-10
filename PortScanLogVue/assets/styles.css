@@ -5,7 +5,7 @@ body {
   color: #282828;
 }
 #app {
-  max-width: 960px;
+  max-width: 1200px;
   margin: auto; 
   background-color: #fafafa;
 }
@@ -73,7 +73,7 @@ p {
 }
 
 .log-records {
-  width: 440px;
+  width: 540px;
 }
 
 .details {
