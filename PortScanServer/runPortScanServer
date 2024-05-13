@@ -1,0 +1,7 @@
+#! /bin/sh
+# keep csci[36]]50 port scan server running
+while [ true ]; do
+   date >> ports.log
+   java -cp ".:mongodb-driver-sync-5.1.0.jar" PortServer >> ports.log
+   sleep 120
+done
