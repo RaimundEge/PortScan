@@ -23,8 +23,11 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+
 using namespace std;
 #define MAX 4096
+#define IP "100.72.194.4"
+#define TIMEOUT 400000
 
 void handleErrors() {
   ERR_print_errors_fp(stderr);
@@ -44,14 +47,14 @@ bool scanPortUdp(int port, unsigned char* key) {
 	
 	struct timeval read_timeout;
 	read_timeout.tv_sec = 0;
-	read_timeout.tv_usec = 200000;
+	read_timeout.tv_usec = TIMEOUT;
 	setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &read_timeout, sizeof read_timeout);
 
 	struct sockaddr_in echoserver; // structure for address of server	
 	// Construct the server sockaddr_in structure
 	memset(&echoserver, 0, sizeof(echoserver)); /* Clear struct */
 	echoserver.sin_family = AF_INET;			/* Internet/IP */
-	echoserver.sin_addr.s_addr = inet_addr("10.158.56.43"); /* IP address */
+	echoserver.sin_addr.s_addr = inet_addr(IP); /* IP address */
 	echoserver.sin_port = htons(port); /* server port */
 
 	// Send the message to the server
@@ -89,13 +92,13 @@ bool scanPortTcp(int port, unsigned char* buffer, int* buffer_len) {
 
 	struct timeval read_timeout;
 	read_timeout.tv_sec = 0;
-	read_timeout.tv_usec = 200000;
+	read_timeout.tv_usec = TIMEOUT;
 	setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, &read_timeout, sizeof read_timeout);
 
 	// Construct the server sockaddr_in structure
 	memset(&echoserver, 0, sizeof(echoserver));       /* Clear struct */
 	echoserver.sin_family = AF_INET;                   /* Internet/IP */
-	echoserver.sin_addr.s_addr = inet_addr("10.158.56.43");   /* IP address */
+	echoserver.sin_addr.s_addr = inet_addr(IP);   /* IP address */
 	echoserver.sin_port = htons(port);        /* server port */
 	
 	// connect to server

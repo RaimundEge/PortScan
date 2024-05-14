@@ -12,6 +12,7 @@
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.text.SimpleDateFormat;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -19,7 +20,7 @@ import javax.crypto.SecretKey;
 
 class KeyStore {
 
-    static HashMap<String, SecretKey> store = new HashMap<>();
+    static ConcurrentHashMap<String, SecretKey> store = new ConcurrentHashMap<>();
     static Random rand = new Random();
 }
 
@@ -64,7 +65,6 @@ class PortServerUDP extends Thread {
                 case "group 7":
                 case "group 8":
                 case "group 9":
-                case "group X":
                 case "group Y":
                     nameOK = true;
                 }
@@ -81,10 +81,8 @@ class PortServerUDP extends Thread {
                 } else {
                     // generate key, store and send to the client
                     KeyGenerator keyGen = KeyGenerator.getInstance("RC4");
-                    SecretKey secretKey = keyGen.generateKey();
-                    if (!groupName.equals("group X")) {
-                        KeyStore.store.put(groupName, secretKey); 
-                    }                  
+                    SecretKey secretKey = keyGen.generateKey();                   
+                    KeyStore.store.put(groupName, secretKey);                 
                     responseBytes = secretKey.getEncoded();
                     record.append(DB.bytesToHex(responseBytes));
                     System.out.println(", response: key sent, size: " + responseBytes.length);
@@ -94,12 +92,12 @@ class PortServerUDP extends Thread {
                 // send repsonse packet
                 packet = new DatagramPacket(responseBytes, responseBytes.length, packet.getAddress(), packet.getPort());
                 socket.send(packet);
-                socket.close();
-
+                // Pause before opening new port
+                Thread.sleep(2000);
             } catch (Exception e) {
                 System.out.println("1. Exception caught: " + e);
                 e.printStackTrace();
-            }
+            }           
         }
     }
 }
