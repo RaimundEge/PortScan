@@ -1,12 +1,13 @@
-import com.mongodb.MongoClient;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.WriteResult;
+import org.bson.*;
+import org.bson.types.ObjectId;
+import com.mongodb.*;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
 
 
 public class DB {
-    DBCollection col;
+    MongoCollection<Document> col;
     static DB db = new DB();
 
     void initConnection() {
@@ -14,10 +15,9 @@ public class DB {
         if (col == null) {
             /* establish connection to DB */
             try {
-
-                MongoClient mongo = new MongoClient("localhost", 27017);
-                DBCollection col = mongo.getDB("csci350").getCollection("logrecords");
-
+                ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017");
+                MongoClient mongo = MongoClients.create(connectionString);
+                col = mongo.getDatabase("csci350").getCollection("logrecords");
             } catch (Exception ex) {
                 System.out.println("DB error: " + ex);
             }
@@ -30,14 +30,21 @@ public class DB {
         // record);
         try {
             initConnection();
-            DBObject logrecord = BasicDBObjectBuilder.start();
-            logrecord.add("groupName", groupName);
-            logrecord.add("type", type);  
-            logrecord.add("addr", addr);
-            logrecord.add("port", port);
-            logrecord.add("record", record);                        
+        //    DBObject logrecord = BasicDBObjectBuilder.start();
+        //    logrecord.add("groupName", groupName);
+        //    logrecord.add("type", type);  
+        //    logrecord.add("addr", addr);
+        //    logrecord.add("port", port);
+        //    logrecord.add("record", record);                        
             
-            WriteResult result = col.insert(logrecord);
+             Document logrecord = new Document("_id", new ObjectId())
+                 .append("groupName", groupName)
+                 .append("type", type)
+                 .append("addr", addr)
+                 .append("port", port)
+                 .append("record", record);
+
+            col.insertOne(logrecord);
         } catch (Exception ex) {
             System.out.println("DB error: " + ex);
         }
