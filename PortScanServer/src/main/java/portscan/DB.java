@@ -6,6 +6,7 @@ import com.mongodb.*;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
+import java.util.Date;
 
 
 public class DB {
@@ -28,21 +29,14 @@ public class DB {
 
     void write(String groupName, String type, String address, int port, String record) {
         String addr = address.substring(1);
-        // System.out.println("writing: " + type + ", " + addr + ", " + port + ", " +
-        // record);
+    
         try {
             initConnection();
-        //    DBObject logrecord = BasicDBObjectBuilder.start();
-        //    logrecord.add("groupName", groupName);
-        //    logrecord.add("type", type);  
-        //    logrecord.add("addr", addr);
-        //    logrecord.add("port", port);
-        //    logrecord.add("record", record);                        
-            
-             Document logrecord = new Document("_id", new ObjectId())
-                 .append("groupName", groupName)
+
+             Document logrecord = new Document("groupName", groupName)
+                 .append("timestamp", new Date())
                  .append("type", type)
-                 .append("addr", addr)
+                 .append("IP", addr)
                  .append("port", port)
                  .append("record", record);
 

@@ -1,5 +1,5 @@
-portscan/DB.class
 portscan/PortServerTCP.class
+portscan/DB.class
 portscan/PortServer.class
 portscan/KeyStore.class
 portscan/MonitorServerUDP.class
