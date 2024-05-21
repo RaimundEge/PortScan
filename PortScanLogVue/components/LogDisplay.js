@@ -13,7 +13,7 @@ app.component('log-display', {
              <div v-if="showGroup[groupName]" class="group-detail">              
                <div v-for="log in groups[groupName]">
                  <div class="log-line space-between">
-                   <div v-bind:class="{ selected: current===log['id'] }" v-on:click="getDetail(log['id'])">{{ formatLog(log) }}</div>
+                   <div v-bind:class="{ selected: current===log['id'] }" v-on:click="getDetail(log['_id'])">{{ formatLog(log) }}</div>
                  </div>
                </div>
              </div>
@@ -77,8 +77,7 @@ app.component('log-display', {
       this.detail = null
     },
     formatLog(log) {
-      var result = log['id'] + ': '
-      result += log['timestamp'] + ', '
+      var result = log['timestamp'] + ', '
       result += log['groupName'] + ' >'
       result += log['IP'] + ':' + log['port'] + '<, '
       result += log['type']

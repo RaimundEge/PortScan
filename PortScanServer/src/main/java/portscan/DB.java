@@ -1,7 +1,6 @@
 package portscan;
 
 import org.bson.*;
-import org.bson.types.ObjectId;
 import com.mongodb.*;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
