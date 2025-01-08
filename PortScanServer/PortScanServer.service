@@ -1,0 +1,11 @@
+[Unit]
+Description=Java server to open random (9000-9099) TCP and UPD ports
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/blitz/PortScanLog/PortScanServer/
+ExecStart="/var/www/blitz/PortScanLog/PortScanServer/run"
+Restart=always
+
+[Install]
+WantedBy=network-online.target
